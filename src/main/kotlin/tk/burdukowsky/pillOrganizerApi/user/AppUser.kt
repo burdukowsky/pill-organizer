@@ -17,5 +17,5 @@ class AppUser(
                 name = "users_roles",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_name", referencedColumnName = "name")])
-        private val roles: Set<Role> = HashSet()
+        val roles: Set<Role> = HashSet()
 )
