@@ -10,5 +10,6 @@ class Place(
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "places_sequence")
         val id: Long = 0,
         val name: String = "",
+        @Column(columnDefinition = "text")
         val description: String = ""
 )
