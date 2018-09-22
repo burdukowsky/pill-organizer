@@ -2,6 +2,7 @@ package tk.burdukowsky.pillOrganizerApi.place
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("places")
@@ -20,7 +21,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     }
 
     @PostMapping("")
-    fun createPlace(@RequestBody place: Place): ResponseEntity<Place> {
+    fun createPlace(@Valid @RequestBody place: Place): ResponseEntity<Place> {
         val createdPlace = this.placeRepository.save(place)
         return ResponseEntity.ok().body(createdPlace)
     }

@@ -2,6 +2,7 @@ package tk.burdukowsky.pillOrganizerApi.place
 
 import tk.burdukowsky.pillOrganizerApi.pill.Pill
 import javax.persistence.*
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(name = "places")
@@ -10,9 +11,13 @@ class Place(
         @SequenceGenerator(name = "places_sequence", sequenceName = "places_sequence", allocationSize = 5)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "places_sequence")
         val id: Long = 0,
+
+        @field:NotEmpty
         val name: String = "",
+
         @Column(columnDefinition = "text")
         val description: String = "",
+
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
         @JoinTable(
                 name = "pills_places",
