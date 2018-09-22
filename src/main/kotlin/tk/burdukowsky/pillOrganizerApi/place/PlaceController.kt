@@ -22,6 +22,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
 
     @PostMapping("")
     fun createPlace(@Valid @RequestBody place: Place): ResponseEntity<Place> {
+        place.id = 0
         val createdPlace = this.placeRepository.save(place)
         return ResponseEntity.ok().body(createdPlace)
     }

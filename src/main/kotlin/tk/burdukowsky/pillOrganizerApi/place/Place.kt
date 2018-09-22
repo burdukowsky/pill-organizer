@@ -10,7 +10,7 @@ class Place(
         @Id
         @SequenceGenerator(name = "places_sequence", sequenceName = "places_sequence", allocationSize = 5)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "places_sequence")
-        val id: Long = 0,
+        var id: Long = 0,
 
         @field:NotEmpty
         val name: String = "",
