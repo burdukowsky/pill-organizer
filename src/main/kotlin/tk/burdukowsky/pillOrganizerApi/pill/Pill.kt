@@ -10,7 +10,7 @@ class Pill(
         @SequenceGenerator(name = "pills_sequence", sequenceName = "pills_sequence", allocationSize = 5)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pills_sequence")
 
-        val id: Long = 0,
+        var id: Long = 0,
 
         @field:NotEmpty
         val name: String = "",
