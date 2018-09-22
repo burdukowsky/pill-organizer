@@ -18,4 +18,10 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         this.placeRepository.deletePillPlace(pillId, placeId)
         return ResponseEntity.ok().build()
     }
+
+    @PostMapping("")
+    fun createPlace(@RequestBody place: Place): ResponseEntity<Place> {
+        val createdPlace = this.placeRepository.save(place)
+        return ResponseEntity.ok().body(createdPlace)
+    }
 }
