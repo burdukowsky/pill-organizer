@@ -23,5 +23,5 @@ class Place(
                 name = "pills_places",
                 joinColumns = [JoinColumn(name = "place_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "pill_id", referencedColumnName = "id")])
-        var pills: List<Pill> = ArrayList()
+        var pills: MutableList<Pill> = ArrayList()
 )
