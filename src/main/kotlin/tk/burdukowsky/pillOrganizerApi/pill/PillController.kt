@@ -19,4 +19,12 @@ class PillController(private val pillRepository: PillRepository) {
         val createdPill = this.pillRepository.save(pill)
         return ResponseEntity.ok().body(createdPill)
     }
+
+    @PostMapping("/{pillId}")
+    fun updatePill(@PathVariable(value = "pillId") pillId: Long,
+                   @Valid @RequestBody pill: Pill): ResponseEntity<Pill> {
+        pill.id = pillId
+        val updatedPill = this.pillRepository.save(pill)
+        return ResponseEntity.ok().body(updatedPill)
+    }
 }
