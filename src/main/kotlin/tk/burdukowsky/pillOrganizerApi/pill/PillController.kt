@@ -23,6 +23,9 @@ class PillController(private val pillRepository: PillRepository) {
     @PutMapping("/{pillId}")
     fun updatePill(@PathVariable(value = "pillId") pillId: Long,
                    @Valid @RequestBody pill: Pill): ResponseEntity<Pill> {
+        if (!this.pillRepository.existsById(pillId)) {
+            return ResponseEntity.notFound().build()
+        }
         pill.id = pillId
         val updatedPill = this.pillRepository.save(pill)
         return ResponseEntity.ok().body(updatedPill)
