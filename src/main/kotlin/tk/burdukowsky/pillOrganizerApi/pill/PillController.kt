@@ -27,4 +27,13 @@ class PillController(private val pillRepository: PillRepository) {
         val updatedPill = this.pillRepository.save(pill)
         return ResponseEntity.ok().body(updatedPill)
     }
+
+    @DeleteMapping("/{pillId}")
+    fun deletePill(@PathVariable(value = "pillId") pillId: Long): ResponseEntity<Void> {
+        if (!this.pillRepository.existsById(pillId)) {
+            return ResponseEntity.notFound().build()
+        }
+        this.pillRepository.deleteById(pillId)
+        return ResponseEntity.ok().build()
+    }
 }
