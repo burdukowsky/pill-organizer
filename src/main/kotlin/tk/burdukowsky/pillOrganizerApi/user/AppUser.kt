@@ -2,6 +2,7 @@ package tk.burdukowsky.pillOrganizerApi.user
 
 import javax.persistence.*
 import java.util.HashSet
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(name = "users")
@@ -10,8 +11,14 @@ class AppUser(
         @SequenceGenerator(name = "users_sequence", sequenceName = "users_sequence", allocationSize = 5)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
         val id: Long = 0,
+
+        @field:NotEmpty
+        @Column(unique = true)
         val username: String = "",
+
+        @field:NotEmpty
         val password: String = "",
+
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
         @JoinTable(
                 name = "users_roles",
