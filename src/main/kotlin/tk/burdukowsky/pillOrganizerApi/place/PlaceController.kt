@@ -60,4 +60,13 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         val updatedPlace = this.placeRepository.save(existingPlace)
         return ResponseEntity.ok().body(updatedPlace)
     }
+
+    @DeleteMapping("/{placeId}")
+    fun deletePlace(@PathVariable(value = "placeId") placeId: Long): ResponseEntity<Void> {
+        if (!this.placeRepository.existsById(placeId)) {
+            return ResponseEntity.notFound().build()
+        }
+        this.placeRepository.deleteById(placeId)
+        return ResponseEntity.ok().build()
+    }
 }
