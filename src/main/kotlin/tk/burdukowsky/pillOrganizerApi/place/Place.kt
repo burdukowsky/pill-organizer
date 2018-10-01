@@ -13,10 +13,10 @@ class Place(
         var id: Long = 0,
 
         @field:NotEmpty
-        val name: String = "",
+        var name: String = "",
 
         @Column(columnDefinition = "text")
-        val description: String = "",
+        var description: String = "",
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
         @JoinTable(

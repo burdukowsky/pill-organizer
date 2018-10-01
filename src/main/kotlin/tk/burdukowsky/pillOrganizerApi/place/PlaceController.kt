@@ -46,4 +46,18 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         val updatedPlace = this.placeRepository.save(place)
         return ResponseEntity.ok().body(updatedPlace)
     }
+
+    @PutMapping("/{placeId}")
+    fun updatePlace(@PathVariable(value = "placeId") placeId: Long,
+                    @Valid @RequestBody place: Place): ResponseEntity<Place> {
+        val existingPlaceOptional = this.placeRepository.findById(placeId)
+        if (!existingPlaceOptional.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+        val existingPlace = existingPlaceOptional.get()
+        existingPlace.name = place.name
+        existingPlace.description = place.description
+        val updatedPlace = this.placeRepository.save(existingPlace)
+        return ResponseEntity.ok().body(updatedPlace)
+    }
 }
