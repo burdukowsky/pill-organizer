@@ -1,5 +1,5 @@
 package tk.burdukowsky.pillOrganizerApi.user
 
 enum class RoleEnum {
-    ADMIN, VIEWER
+    ADMIN, EDITOR, VIEWER
 }
