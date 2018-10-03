@@ -1,5 +1,7 @@
 package tk.burdukowsky.pillOrganizerApi.user
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 import java.util.HashSet
 import javax.validation.constraints.NotEmpty
@@ -10,14 +12,16 @@ class AppUser(
         @Id
         @SequenceGenerator(name = "users_sequence", sequenceName = "users_sequence", allocationSize = 5)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
-        val id: Long = 0,
+        var id: Long = 0,
 
         @field:NotEmpty
         @Column(unique = true)
         val username: String = "",
 
+        @get:JsonIgnore
+        @set:JsonProperty
         @field:NotEmpty
-        val password: String = "",
+        var password: String = "",
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
         @JoinTable(
