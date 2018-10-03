@@ -1,6 +1,7 @@
 package tk.burdukowsky.pillOrganizerApi.pill
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -13,6 +14,7 @@ class PillController(private val pillRepository: PillRepository) {
         return ResponseEntity.ok().body(pillRepository.findAll())
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @PostMapping("")
     fun createPill(@Valid @RequestBody pill: Pill): ResponseEntity<Pill> {
         pill.id = 0
@@ -20,6 +22,7 @@ class PillController(private val pillRepository: PillRepository) {
         return ResponseEntity.ok().body(createdPill)
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @PutMapping("/{pillId}")
     fun updatePill(@PathVariable(value = "pillId") pillId: Long,
                    @Valid @RequestBody pill: Pill): ResponseEntity<Pill> {
@@ -31,6 +34,7 @@ class PillController(private val pillRepository: PillRepository) {
         return ResponseEntity.ok().body(updatedPill)
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @DeleteMapping("/{pillId}")
     fun deletePill(@PathVariable(value = "pillId") pillId: Long): ResponseEntity<Void> {
         if (!this.pillRepository.existsById(pillId)) {

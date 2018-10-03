@@ -1,6 +1,7 @@
 package tk.burdukowsky.pillOrganizerApi.place
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import tk.burdukowsky.pillOrganizerApi.pill.Pill
 import javax.validation.Valid
@@ -14,6 +15,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ResponseEntity.ok().body(placeRepository.findAll())
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @DeleteMapping("/{placeId}/pills/{pillId}")
     fun deletePillPlace(@PathVariable(value = "placeId") placeId: Long,
                         @PathVariable(value = "pillId") pillId: Long): ResponseEntity<Void> {
@@ -27,6 +29,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ResponseEntity.ok().build()
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @PostMapping("")
     fun createPlace(@Valid @RequestBody place: Place): ResponseEntity<Place> {
         place.id = 0
@@ -34,6 +37,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ResponseEntity.ok().body(createdPlace)
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @PostMapping("/{placeId}/pills")
     fun createPillPlace(@PathVariable(value = "placeId") placeId: Long,
                         @Valid @RequestBody pill: Pill): ResponseEntity<Place> {
@@ -47,6 +51,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ResponseEntity.ok().body(updatedPlace)
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @PutMapping("/{placeId}")
     fun updatePlace(@PathVariable(value = "placeId") placeId: Long,
                     @Valid @RequestBody place: Place): ResponseEntity<Place> {
@@ -61,6 +66,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ResponseEntity.ok().body(updatedPlace)
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     @DeleteMapping("/{placeId}")
     fun deletePlace(@PathVariable(value = "placeId") placeId: Long): ResponseEntity<Void> {
         if (!this.placeRepository.existsById(placeId)) {
