@@ -4,11 +4,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import tk.burdukowsky.pillOrganizerApi.pill.Pill
+import tk.burdukowsky.pillOrganizerApi.pill.PillRepository
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("places")
-class PlaceController(private val placeRepository: PlaceRepository) {
+class PlaceController(private val placeRepository: PlaceRepository, private val pillRepository: PillRepository) {
 
     @GetMapping("")
     fun getPlaces(): ResponseEntity<List<Place>> {
@@ -45,8 +46,14 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         if (!placeOptional.isPresent) {
             return ResponseEntity.notFound().build()
         }
+
+        val pillOptional = this.pillRepository.findById(pill.id)
+        if (!pillOptional.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+
         val place = placeOptional.get()
-        place.pills.add(pill)
+        place.pills.add(pillOptional.get())
         val updatedPlace = this.placeRepository.save(place)
         return ResponseEntity.ok().body(updatedPlace)
     }
