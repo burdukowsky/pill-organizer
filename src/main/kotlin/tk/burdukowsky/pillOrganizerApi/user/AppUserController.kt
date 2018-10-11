@@ -1,5 +1,7 @@
 package tk.burdukowsky.pillOrganizerApi.user
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
@@ -24,14 +26,39 @@ class AppUserController(private val appUserRepository: AppUserRepository,
     }
 
     @PutMapping("/{userId}")
-    fun updateUser(@PathVariable(value = "userId") userId: Long,
-                   @Valid @RequestBody user: AppUser): ResponseEntity<AppUser> {
+    fun replaceUser(@PathVariable(value = "userId") userId: Long,
+                    @Valid @RequestBody user: AppUser): ResponseEntity<AppUser> {
         if (!this.appUserRepository.existsById(userId)) {
             return ResponseEntity.notFound().build()
         }
         user.id = userId
         user.password = bCryptPasswordEncoder.encode(user.password)
-        val updatedUser = this.appUserRepository.save(user)
+        val replacedUser = this.appUserRepository.save(user)
+        return ResponseEntity.ok().body(replacedUser)
+    }
+
+    @PatchMapping("/{userId}")
+    fun updateUser(@PathVariable(value = "userId") userId: Long,
+                   @RequestBody jsonBody: JsonNode): ResponseEntity<AppUser> {
+        val storedUserOptional = this.appUserRepository.findById(userId)
+        if (!storedUserOptional.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+        val storedUser = storedUserOptional.get()
+        if (jsonBody.has("username")) {
+            storedUser.username = jsonBody.get("username").textValue()
+        }
+        if (jsonBody.has("password")) {
+            storedUser.password = bCryptPasswordEncoder.encode(jsonBody.get("password").textValue())
+        }
+        if (jsonBody.has("roles")) {
+            val objectMapper = ObjectMapper()
+            storedUser.roles = objectMapper.readValue(
+                    jsonBody.get("roles").toString(),
+                    objectMapper.typeFactory.constructCollectionType(Set::class.java, Role::class.java)
+            )
+        }
+        val updatedUser = this.appUserRepository.save(storedUser)
         return ResponseEntity.ok().body(updatedUser)
     }
 

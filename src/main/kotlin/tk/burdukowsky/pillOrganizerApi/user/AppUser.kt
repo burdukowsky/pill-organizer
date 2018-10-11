@@ -16,7 +16,7 @@ class AppUser(
 
         @field:NotEmpty
         @Column(unique = true)
-        val username: String = "",
+        var username: String = "",
 
         @get:JsonIgnore
         @set:JsonProperty
@@ -28,5 +28,5 @@ class AppUser(
                 name = "users_roles",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_name", referencedColumnName = "name")])
-        val roles: Set<Role> = HashSet()
+        var roles: Set<Role> = HashSet()
 )
