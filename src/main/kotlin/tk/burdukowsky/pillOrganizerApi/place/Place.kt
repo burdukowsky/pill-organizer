@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty
 @Table(name = "places")
 class Place(
         @Id
-        @SequenceGenerator(name = "places_sequence", sequenceName = "places_sequence", allocationSize = 5)
+        @SequenceGenerator(name = "places_sequence", sequenceName = "places_sequence", allocationSize = 0)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "places_sequence")
         var id: Long = 0,
 

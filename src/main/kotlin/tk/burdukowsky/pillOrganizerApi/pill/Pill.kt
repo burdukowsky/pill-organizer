@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty
 @Table(name = "pills")
 class Pill(
         @Id
-        @SequenceGenerator(name = "pills_sequence", sequenceName = "pills_sequence", allocationSize = 5)
+        @SequenceGenerator(name = "pills_sequence", sequenceName = "pills_sequence", allocationSize = 0)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pills_sequence")
 
         var id: Long = 0,

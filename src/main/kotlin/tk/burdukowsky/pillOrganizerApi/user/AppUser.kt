@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty
 @Table(name = "users")
 class AppUser(
         @Id
-        @SequenceGenerator(name = "users_sequence", sequenceName = "users_sequence", allocationSize = 5)
+        @SequenceGenerator(name = "users_sequence", sequenceName = "users_sequence", allocationSize = 0)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
         var id: Long = 0,
 
